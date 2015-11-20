@@ -1,0 +1,70 @@
+.forSwitch {
+    display: none;
+    position: relative;
+    top: 450px;
+    left: 950px;
+    width: 85px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.checkbox {
+    display: none;
+}
+.label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #61485B; border-radius: 18px;
+}
+.inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.inner:before, .inner:after {
+    display: block; float: left; width: 50%; height: 29px; padding: 0; line-height: 29px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.inner:before {
+    content: "Draw";
+    padding-left: 10px;
+    background-color: #7BE0BD; color: #FFFFFF;
+}
+.inner:after {
+    content: "Delete";
+    padding-right: 10px;
+    background-color: #947E7E; color: #FFFFFF;
+    text-align: right;
+}
+.round {
+    display: block; width: 28px; margin: 0.5px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 52px;
+    border: 2px solid #61485B; border-radius: 18px;
+    transition: all 0.3s ease-in 0s; 
+}
+.checkbox:checked + .label .inner {
+    margin-left: 0;
+}
+.checkbox:checked + .label .round {
+    right: 0px; 
+}
+.default {
+    position: relative;
+    top: 460px;
+    left: 830px;
+    
+}
+#edit {
+  -webkit-border-radius: 13;
+  -moz-border-radius: 13;
+  border-radius: 13px;
+  color: #ffffff;
+  font-size: 20px;
+  background: #aae1eb;
+  padding: 11px 23px 11px 23px;
+  text-decoration: none;
+}
+
+#edit:hover {
+  background: #4f8eb5;
+  text-decoration: none;
+}
