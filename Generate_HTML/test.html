@@ -1,0 +1,30 @@
+<!DOCTYPE html> 
+<html>
+    <style> img { position: absolute; }  </style>
+   
+    <script>
+        function getURLParameter(name) {
+            //get the msg
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+        }
+        function foo() {
+            var myvar = getURLParameter('msg');
+            document.getElementById("panoramic_image").src = myvar;
+        }
+    </script>
+
+    
+    
+    <body onload="javascript:foo()">
+        <img id="panoramic_image" src=""></img>
+
+    </body>
+   
+
+</html>
+
+
+
+
+
+
