@@ -1,0 +1,42 @@
+
+Our mysql database
+
+
+
++----------------------------+
+| Tables_in_furukawa_sim_web |
++----------------------------+
+| RECT                       |
+| SCANS                      |
++----------------------------+
+2 rows in set (0.00 sec)
+
+
+
+mysql> describe SCANS;
++----------+------------------+------+-----+---------+----------------+
+| Field    | Type             | Null | Key | Default | Extra          |
++----------+------------------+------+-----+---------+----------------+
+| ID       | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| scan_id  | varchar(50)      | NO   |     | NULL    |                |
+| num_rect | int(10) unsigned | YES  |     | NULL    |                |
++----------+------------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+
+
+mysql> describe RECT;
++---------+------------------+------+-----+---------+----------------+
+| Field   | Type             | Null | Key | Default | Extra          |
++---------+------------------+------+-----+---------+----------------+
+| rect_id | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| ID      | int(10) unsigned | NO   | MUL | NULL    |                |
+| upper_x | decimal(10,5)    | YES  |     | NULL    |                |
+| upper_y | decimal(10,5)    | YES  |     | NULL    |                |
+| width   | decimal(10,5)    | YES  |     | NULL    |                |
+| height  | decimal(10,5)    | YES  |     | NULL    |                |
++---------+------------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+
+

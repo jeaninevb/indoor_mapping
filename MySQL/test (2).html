@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<meta charset=utf-8 />
+<title>map</title>
+
+<style>
+  body { font-family: sans-serif; }
+ 
+   .inside{
+   position:relative;
+   }
+   .image_class{
+   position:absolute;
+   }
+   .canvas_class{
+   position:absolute;
+   } 
+  #webgl_canvas {
+    width:  1031px;
+    height: 427px;
+      z-index: 1;
+    background: transparent;
+    line-height: 300px;
+    text-align:  center;
+    color:  #666;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .drag-box {
+      z-index: 2;
+    position:    absolute;
+    background: #666;
+    border:     1px dotted #000;
+    opacity: 0.6;
+  }
+  
+</style>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="switch.css">
+</head>
+
+<body onload="javascript:foo()">
+    <script>
+        function getURLParameter(name) {
+          return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,"duc027(4).png"])[1].replace(/\+/g, '%20'))||null
+       }
+       function foo() {
+          var myvar = getURLParameter('msg');
+          document.getElementById("panoramic_image").src = myvar;
+          var imgH = $('#panoramic_image').height;
+           var imgW = $('#panoramic_image').width;
+           $('#webgl_canvas').css({
+              'width':  imgW,
+              'height': imgH
+            });
+
+       }
+    </script>
+  <div>
+     <div class="inside">
+        <img id="panoramic_image" class="image_class" src="" ></img>
+        <div id="webgl_canvas" class="canvas_class" ></canvas>
+      </div>
+    
+    
+    
+  </div>
+    
+    <div class="forSwitch">
+        <input type="checkbox" class="checkbox" id="drawOrDel" checked>
+        <label class="label" for="drawOrDel">
+            <span class="inner"></span>         
+
+            <span class="round"></span>       
+
+        </label>
+    </div>
+    
+    <div class = "default">
+        <button type = "button" id = "edit" > Edit </button>
+    </div>
+    
+<script>
+    var rect = [];
+    //check if rect.length > 256
+
+$(function() {
+    
+    //  default      no editing   -->  once clicked 
+    
+    var $container = $('#webgl_canvas');
+    var firstpoint;
+    var $checkbox = $('#drawOrDel');
+    
+    var enable = true;
+    var editEnable = false;
+    var $editButton = $('#edit');
+    $editButton.click(function() {
+        if (enable) {
+            enable = false;
+            editEnable = true;
+            $editButton.css({
+                'background' : '#4f8eb5'
+            });
+            //alert("enable");
+            $('.forSwitch').css({
+            'display': 'block'
+            });
+            $editButton.text("Quit");
+        }
+        else {
+            editEnable = false;
+            enable = true;
+            $editButton.css({
+                'background' : '#aae1eb'
+            });
+            //alert(unable);
+            $('.forSwitch').css({
+            'display': 'none'
+            });
+            $editButton.text("Edit");
+        }
+    });
+    
+    
+    //if (editEnable) {
+    
+        $container.on('mousedown', function(event) {
+            if (editEnable) {
+            //clear and then redraw
+            var canvas = document.getElementById("webgl_canvas");
+            while( canvas.hasChildNodes() ){
+                canvas.removeChild(canvas.lastChild);
+            }
+            for (var i = 0; i < rect.length; i++) {
+                rect[i].appendTo($container);                  
+            }
+            var y = event.pageY;
+            var x = event.pageX;
+
+            if ($checkbox.is(':checked')) {
+                var $drag = $('<div>').addClass('drag-box');
+
+                var r=parseInt(Math.random()*255);
+                var g=parseInt(Math.random()*255);
+                var b=parseInt(Math.random()*255);
+                var bg = "rgb("+r+","+g+","+b+")";
+                firstpoint = true;
+
+                $container.on('mousemove', function(event) { 
+                if (firstpoint) {
+                    $drag.css({
+                      'top':    y,
+                      'left':   x,
+                      'width':  0,
+                      'height': 0,
+                      'background': bg
+                    });
+                    $drag.appendTo($container);
+                    firstpoint = false;
+                }
+
+                  var dragX = event.pageX;
+                  var dragY = event.pageY;
+                  var width  = Math.abs(dragX - x);
+                  var height = Math.abs(dragY - y);
+                  var cornerX, cornerY;
+
+
+                  if(dragX > $container.width) { dragX = $container.width;}
+                  if(dragY > $container.height) { dragY = $container.height; }
+
+                  if (dragX > x) { cornerX = x; }
+                  else {cornerX = x - width;}
+                  if (dragY > y) {cornerY = y;}
+                  else {cornerY = y-height;}
+
+                  $drag.css({
+                    'width': width,
+                    'height': height,
+                    'top': cornerY,
+                    'left': cornerX,
+                    'background': bg
+                  });
+
+                }).on('mouseup', function(e) {
+                    $container.off('mousemove');
+                    $container.off('mouseup');
+
+
+                    rect.push($drag);
+
+
+
+                    //add php stuff here 
+                    location(add_rect.php);
+                    
+                    
+                    
+                    
+                });
+
+            }   //end of if checked
+
+            else {   //equal to 'double' click
+                //var y = event.pageY;
+                //var x = event.pageX;
+
+                if (rect.length > 0) {
+                    for (var i = rect.length - 1; i >= 0; i--) {
+                        var $r = rect[i];
+                        var top = parseInt($r.css('top'), 10);
+                        var left = parseInt($r.css('left'), 10);
+                        var width = parseInt($r.css('width'), 10);
+                        var height = parseInt($r.css('height'), 10);
+
+                        if ((y > (top+7)) && (y < (top+height+7)) && (x > (left+7)) && (x < (left+width+7)) ) {   //adjust
+
+                            rect.splice(i, 1);   //delete
+
+                            //php update database
+                            location(delete_rect.php);
+                        }
+
+                    } 
+
+                    //redraw
+                    var canvas = document.getElementById("webgl_canvas");
+                    while( canvas.hasChildNodes() ){
+                        canvas.removeChild(canvas.lastChild);
+                    }
+                    for (var i = 0; i < rect.length; i++) {
+                        rect[i].appendTo($container);                  
+                    }
+
+                }
+
+            }
+            }    });
+    
+    
+});
+    
+</script>
+
+</body>
+</html>
